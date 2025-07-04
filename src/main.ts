@@ -7,9 +7,11 @@ import { FieldConstraintErrorMap } from './interfaces/common/dto/field-error-map
 import { RequestErrorCode } from './interfaces/common/errors/request-error-code';
 import { RequestCustomException } from './interfaces/common/errors/request-custom-exception';
 import { HttpExceptionFilter } from './interfaces/common/filters/http-exception.filter';
+import { API_PREFIX } from './support/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix(API_PREFIX);
   app.useGlobalPipes(
     new ValidationPipe({
       // POJO 객체를 DTO 클래스로 자동 변환
