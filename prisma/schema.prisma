@@ -6,10 +6,65 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  userId        BigInt         @id @default(autoincrement()) @map("user_id")
+  nickname      String?
+  role          Role?
+  coupleId      BigInt?        @map("couple_id")
+  kakaoId       BigInt?        @map("kakao_id") @unique
+  isDeleted     Boolean?       @default(false) @map("is_deleted")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  tokens        Token[]
+  notifications Notification[]
+
+  couple Couple? @relation(fields: [coupleId], references: [coupleId])
+
+  @@map("user")
+}
+
+model Couple {
+  coupleId   BigInt      @id @default(autoincrement()) @map("couple_id")
+  inviteCode String   @unique @map("invite_code")
+  user1Id    BigInt      @map("user1_id")
+  user2Id    BigInt?     @map("user2_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  users User[]
+
+  @@map("couple")
+}
+
+model Token {
+  tokenId      BigInt   @id @default(autoincrement()) @map("token_id")
+  userId       BigInt   @unique @map("user_id")
+  refreshToken String   @map("refresh_token") @db.Text
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  user         User     @relation(fields: [userId], references: [userId])
+
+  @@map("token")
+}
+
+model Notification {
+  notificationId BigInt   @id @default(autoincrement()) @map("notification_id")
+  userId         BigInt   @map("user_id")
+  content        String
+  createdAt      DateTime @default(now()) @map("created_at")
+  user           User     @relation(fields: [userId], references: [userId])
+
+  @@map("notification")
+}
+
+enum Role {
+  DAD
+  MOM
 }
