@@ -1,0 +1,18 @@
+/*
+  Warnings:
+
+  - The primary key for the `couple` table will be changed. If it partially fails, the table could be left without primary key constraint.
+  - You are about to alter the column `kakao_id` on the `user` table. The data in that column could be lost. The data in that column will be cast from `VarChar(191)` to `Int`.
+
+*/
+-- AlterTable
+ALTER TABLE `couple` DROP PRIMARY KEY,
+    MODIFY `couple_id` BIGINT NOT NULL AUTO_INCREMENT,
+    MODIFY `user1_id` BIGINT NOT NULL,
+    MODIFY `user2_id` BIGINT NULL,
+    ADD PRIMARY KEY (`couple_id`);
+
+-- AlterTable
+ALTER TABLE `user` MODIFY `spouse_id` BIGINT NULL,
+    MODIFY `couple_id` BIGINT NULL,
+    MODIFY `kakao_id` INTEGER NULL;
