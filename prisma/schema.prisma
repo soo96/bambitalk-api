@@ -20,7 +20,7 @@ model User {
   role          Role?
   spouseId      Int?           @map("spouse_id")
   coupleId      Int?           @map("couple_id")
-  kakaoId       String?        @map("kakao_id")
+  kakaoId       String?        @map("kakao_id") @unique
   isDeleted     Boolean?       @default(false) @map("is_deleted")
   createdAt     DateTime       @default(now()) @map("created_at")
   updatedAt     DateTime       @updatedAt @map("updated_at")
