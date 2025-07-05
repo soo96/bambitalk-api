@@ -1,7 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
+import { SignupCommand } from 'src/domain/auth/command/signup.command';
 import { LoginResponseResult } from 'src/domain/auth/result/login-response.result';
+import { SignupResponseResult } from 'src/domain/auth/result/signup-response.result';
 import { SOCIAL_LOGIN_CLIENT, SocialLoginClient } from 'src/domain/auth/social-login.client';
+import { CoupleService } from 'src/domain/couple/couple.service';
 import { USER_REPOSITORY, UserRepository } from 'src/domain/user/user.repository';
+import { UserService } from 'src/domain/user/user.service';
 import { Transactional } from 'src/interfaces/common/decorators/transactional.decorator';
 import { JwtUtil } from 'src/support/jwt.util';
 
@@ -12,7 +16,9 @@ export class AuthUseCase {
     private readonly socialLoginClient: SocialLoginClient,
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
-    private readonly jwtUtil: JwtUtil
+    private readonly jwtUtil: JwtUtil,
+    private readonly userService: UserService,
+    private readonly coupleService: CoupleService
   ) {}
 
   private readonly logger = new Logger(AuthUseCase.name);
@@ -32,5 +38,24 @@ export class AuthUseCase {
     });
 
     return { needSignup: false, ...loginToken };
+  }
+
+  @Transactional()
+  async signup(command: SignupCommand): Promise<SignupResponseResult> {
+    const { nickname, role } = command;
+
+    const user = await this.userService.createUserWithToken(nickname, role);
+
+    const couple = await this.coupleService.createCouple(user.userId);
+
+    await this.userRepository.updateCoupleId(user.userId, couple.coupleId);
+
+    const loginToken = this.jwtUtil.generateLoginToken({
+      userId: user.userId,
+    });
+
+    await this.userService.saveRefreshToken(user.userId, loginToken.refreshToken);
+
+    return loginToken;
   }
 }

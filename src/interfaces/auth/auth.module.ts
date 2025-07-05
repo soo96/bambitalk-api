@@ -8,9 +8,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { USER_REPOSITORY } from 'src/domain/user/user.repository';
 import { UserRepositoryImpl } from 'src/infrastructure/user/user.repository.impl';
 import { JwtUtil } from 'src/support/jwt.util';
+import { CoupleModule } from '../couple/couple.module';
 
 @Module({
-  imports: [UserModule, JwtModule.register({})],
+  imports: [UserModule, JwtModule.register({}), CoupleModule],
   controllers: [AuthController],
   providers: [
     AuthUseCase,
