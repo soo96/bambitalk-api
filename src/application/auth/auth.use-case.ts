@@ -37,6 +37,8 @@ export class AuthUseCase {
       userId: user.userId,
     });
 
+    await this.userService.saveRefreshToken(user.userId, loginToken.refreshToken);
+
     return { needSignup: false, ...loginToken };
   }
 
