@@ -30,7 +30,7 @@ export class AuthUseCase {
     const user = await this.userRepository.getUserByKakaoId(kakaoId);
 
     if (!user) {
-      return { needSignup: true };
+      return { needSignup: true, kakaoId };
     }
 
     const loginToken = this.jwtUtil.generateLoginToken({
@@ -44,9 +44,9 @@ export class AuthUseCase {
 
   @Transactional()
   async signup(command: SignupCommand): Promise<SignupResponseResult> {
-    const { nickname, role } = command;
+    const { kakaoId, nickname, role } = command;
 
-    const user = await this.userService.createUserWithToken(nickname, role);
+    const user = await this.userService.createUserWithToken(kakaoId, nickname, role);
 
     const couple = await this.coupleService.createCouple(user.userId);
 

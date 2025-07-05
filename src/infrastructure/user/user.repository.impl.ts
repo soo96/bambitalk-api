@@ -30,9 +30,9 @@ export class UserRepositoryImpl implements UserRepository {
     );
   }
 
-  async createUser(nickname: string, role: Role): Promise<UserEntity> {
+  async createUser(kakaoId: number, nickname: string, role: Role): Promise<UserEntity> {
     const user = await this.prisma.user.create({
-      data: { nickname, role },
+      data: { nickname, role, kakaoId },
     });
 
     return new UserEntity(

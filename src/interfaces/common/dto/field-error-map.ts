@@ -16,4 +16,8 @@ export const FieldConstraintErrorMap: Partial<
     isNotEmpty: RequestErrorCode.INVALID_QUERY_STRING,
     isIn: RequestErrorCode.INVALID_USER_ROLE,
   },
+  kakaoId: {
+    isNotEmpty: RequestErrorCode.INVALID_QUERY_STRING,
+    isNumber: RequestErrorCode.INVALID_QUERY_STRING,
+  },
 };

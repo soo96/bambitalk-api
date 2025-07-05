@@ -9,8 +9,8 @@ export class UserService {
     private readonly userRepository: UserRepository
   ) {}
 
-  async createUserWithToken(nickname: string, role: Role): Promise<UserEntity> {
-    const user = await this.userRepository.createUser(nickname, role);
+  async createUserWithToken(kakaoId: number, nickname: string, role: Role): Promise<UserEntity> {
+    const user = await this.userRepository.createUser(kakaoId, nickname, role);
     await this.userRepository.createToken(user.userId);
 
     return user;
