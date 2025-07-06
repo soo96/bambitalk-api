@@ -9,6 +9,7 @@ import { USER_REPOSITORY } from 'src/domain/user/user.repository';
 import { UserRepositoryImpl } from 'src/infrastructure/user/user.repository.impl';
 import { JwtUtil } from 'src/support/jwt.util';
 import { CoupleModule } from '../couple/couple.module';
+import { JwtStrategy } from '../common/guards/jwt.strategy';
 
 @Module({
   imports: [UserModule, JwtModule.register({}), CoupleModule],
@@ -24,6 +25,7 @@ import { CoupleModule } from '../couple/couple.module';
       useClass: UserRepositoryImpl,
     },
     JwtUtil,
+    JwtStrategy,
   ],
 })
 export class AuthModule {}
