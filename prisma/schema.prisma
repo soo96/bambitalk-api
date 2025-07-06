@@ -19,7 +19,7 @@ model User {
   nickname      String?
   role          Role?
   coupleId      BigInt?        @map("couple_id")
-  kakaoId       BigInt?        @map("kakao_id") @unique
+  kakaoId       BigInt?        @unique @map("kakao_id")
   isDeleted     Boolean?       @default(false) @map("is_deleted")
   createdAt     DateTime       @default(now()) @map("created_at")
   updatedAt     DateTime       @updatedAt @map("updated_at")
@@ -32,11 +32,12 @@ model User {
 }
 
 model Couple {
-  coupleId   BigInt      @id @default(autoincrement()) @map("couple_id")
-  inviteCode String   @unique @map("invite_code")
-  user1Id    BigInt      @map("user1_id")
-  user2Id    BigInt?     @map("user2_id")
+  coupleId   BigInt   @id @default(autoincrement()) @map("couple_id")
+  inviteCode String?  @map("invite_code")
+  user1Id    BigInt   @map("user1_id")
+  user2Id    BigInt?  @map("user2_id")
   createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   users User[]
 
@@ -46,7 +47,7 @@ model Couple {
 model Token {
   tokenId      BigInt   @id @default(autoincrement()) @map("token_id")
   userId       BigInt   @unique @map("user_id")
-  refreshToken String   @map("refresh_token") @db.Text
+  refreshToken String?  @map("refresh_token") @db.Text
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
   user         User     @relation(fields: [userId], references: [userId])
