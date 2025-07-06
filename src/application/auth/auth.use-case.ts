@@ -35,6 +35,7 @@ export class AuthUseCase {
 
     const loginToken = this.jwtUtil.generateLoginToken({
       userId: user.userId,
+      coupleId: user.coupleId,
     });
 
     await this.userService.saveRefreshToken(user.userId, loginToken.refreshToken);
@@ -54,6 +55,7 @@ export class AuthUseCase {
 
     const loginToken = this.jwtUtil.generateLoginToken({
       userId: user.userId,
+      coupleId: user.coupleId,
     });
 
     await this.userService.saveRefreshToken(user.userId, loginToken.refreshToken);
