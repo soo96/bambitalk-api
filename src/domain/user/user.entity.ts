@@ -4,6 +4,7 @@ export class UserEntity {
     public readonly nickname: string,
     public readonly role: Role,
     public readonly coupleId: number | null,
+    public readonly spouseId: number | null,
     public readonly kakaoId: number,
     public readonly isDeleted: boolean,
     public readonly createdAt: Date,

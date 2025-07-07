@@ -19,6 +19,7 @@ model User {
   nickname  String?
   role      Role?
   coupleId  BigInt?  @map("couple_id")
+  spouseId  BigInt?  @map("spouse_id")
   kakaoId   BigInt?  @unique @map("kakao_id")
   isDeleted Boolean? @default(false) @map("is_deleted")
   createdAt DateTime @default(now()) @map("created_at")
@@ -94,20 +95,20 @@ model Chat {
 }
 
 model Message {
-  messageId BigInt    @id @default(autoincrement()) @map("message_id")
-  chatId    BigInt    @map("chat_id")
-  senderId  BigInt    @map("sender_id")
+  messageId BigInt   @id @default(autoincrement()) @map("message_id")
+  chatId    BigInt   @map("chat_id")
+  senderId  BigInt   @map("sender_id")
   content   String
-  read      Boolean   @default(false)
-  sentAt    DateTime  @default(now()) @map("sent_at")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  chat      Chat      @relation(fields: [chatId], references: [chatId])
-  sender    User      @relation(fields: [senderId], references: [userId])
+  read      Boolean  @default(false)
+  sentAt    DateTime @default(now()) @map("sent_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  chat      Chat     @relation(fields: [chatId], references: [chatId])
+  sender    User     @relation(fields: [senderId], references: [userId])
 }
 
 model Schedule {
-  scheduleId      BigInt   @id @default(autoincrement()) @map("task_id")
+  scheduleId  BigInt   @id @default(autoincrement()) @map("schedule_id")
   coupleId    BigInt   @map("couple_id")
   title       String
   description String?  @db.Text
