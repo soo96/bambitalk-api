@@ -5,6 +5,7 @@ import { ChatController } from './chat.controller';
 import { ChatUseCase } from 'src/application/chat/chat.use-case';
 import { CHAT_REPOSITORY } from 'src/domain/chat/chat.repository';
 import { ChatRepositoryImpl } from 'src/infrastructure/chat/chat.repository.impl';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [ChatController],
@@ -16,6 +17,7 @@ import { ChatRepositoryImpl } from 'src/infrastructure/chat/chat.repository.impl
       provide: CHAT_REPOSITORY,
       useClass: ChatRepositoryImpl,
     },
+    JwtService,
   ],
 })
 export class ChatModule {}
