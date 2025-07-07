@@ -36,11 +36,21 @@ export class AuthUseCase {
     const loginToken = this.jwtUtil.generateLoginToken({
       userId: user.userId,
       coupleId: user.coupleId,
+      spouseId: user.spouseId,
     });
 
     await this.userService.saveRefreshToken(user.userId, loginToken.refreshToken);
 
-    return { needSignup: false, ...loginToken };
+    return {
+      needSignup: false,
+      ...loginToken,
+      user: {
+        userId: user.userId,
+        coupleId: user.coupleId,
+        spouseId: user.spouseId,
+        nickname: user.nickname,
+      },
+    };
   }
 
   @Transactional()
@@ -56,10 +66,19 @@ export class AuthUseCase {
     const loginToken = this.jwtUtil.generateLoginToken({
       userId: user.userId,
       coupleId: user.coupleId,
+      spouseId: user.spouseId,
     });
 
     await this.userService.saveRefreshToken(user.userId, loginToken.refreshToken);
 
-    return loginToken;
+    return {
+      ...loginToken,
+      user: {
+        userId: user.userId,
+        coupleId: user.coupleId,
+        spouseId: user.spouseId,
+        nickname: user.nickname,
+      },
+    };
   }
 }
