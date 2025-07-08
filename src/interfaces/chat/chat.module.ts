@@ -6,8 +6,10 @@ import { ChatUseCase } from 'src/application/chat/chat.use-case';
 import { CHAT_REPOSITORY } from 'src/domain/chat/chat.repository';
 import { ChatRepositoryImpl } from 'src/infrastructure/chat/chat.repository.impl';
 import { JwtService } from '@nestjs/jwt';
+import { MessageModule } from '../message/message.module';
 
 @Module({
+  imports: [MessageModule],
   controllers: [ChatController],
   providers: [
     ChatGateway,

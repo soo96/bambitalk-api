@@ -1,7 +1,7 @@
 import { DomainErrorCode } from 'src/domain/common/errors/domain-error-code';
 import { HttpStatus } from '@nestjs/common';
 import { TransactionManager } from 'src/application/common/transaction-manager';
-import { DomainCustomException } from 'src/domain/common/errors/domain-custrom-exception';
+import { DomainCustomException } from 'src/domain/common/errors/domain-custom-exception';
 
 let globalTransactionManager: TransactionManager | null = null;
 

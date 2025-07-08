@@ -9,20 +9,21 @@ import {
   WsException,
 } from '@nestjs/websockets';
 import { DefaultEventsMap, Server, Socket } from 'socket.io';
-import { ChatService } from 'src/domain/chat/chat.service';
-import { SendMessageDto } from './dto/send-message.dto';
-import { SendMessageCommand } from 'src/domain/chat/command/sendMessageDto';
+import { SendMessageDto } from '../message/dto/send-message.dto';
+import { SendMessageCommand } from 'src/domain/message/command/send-message.command';
 import { JwtService } from '@nestjs/jwt';
 import { Logger } from '@nestjs/common';
 import { JwtPayload } from 'src/support/jwt.util';
-import { AuthPayload } from './interface/auth-payload';
+import { AuthPayload } from '../auth/interface/auth-payload';
+import { MessageUseCase } from 'src/application/message/message.use-case';
+import { GetMessagesResult } from 'src/domain/message/result/get-messages.result';
 
 @WebSocketGateway({
   namespace: '/chats',
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
-    private readonly chatService: ChatService,
+    private readonly messageUseCase: MessageUseCase,
     private readonly jwtService: JwtService
   ) {}
 
@@ -70,9 +71,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       content: payload.content,
     };
 
-    const savedMessage = await this.chatService.saveMessage(command);
+    const savedMessage = await this.messageUseCase.saveMessage(command);
 
-    const response = {
+    const response: GetMessagesResult = {
       id: savedMessage.messageId,
       senderId: savedMessage.senderId,
       text: savedMessage.content,

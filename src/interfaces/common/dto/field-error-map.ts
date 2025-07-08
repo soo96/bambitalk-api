@@ -20,4 +20,12 @@ export const FieldConstraintErrorMap: Partial<
     isNotEmpty: RequestErrorCode.INVALID_QUERY_STRING,
     isNumber: RequestErrorCode.INVALID_QUERY_STRING,
   },
+  cursor: {
+    isNumber: RequestErrorCode.INVALID_QUERY_STRING,
+  },
+  limit: {
+    isNumber: RequestErrorCode.INVALID_QUERY_STRING,
+    min: RequestErrorCode.INVALID_LIMIT_RANGE,
+    max: RequestErrorCode.INVALID_LIMIT_RANGE,
+  },
 };

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { DomainCustomException } from 'src/domain/common/errors/domain-custrom-exception';
+import { DomainCustomException } from 'src/domain/common/errors/domain-custom-exception';
 import { DomainErrorCode } from 'src/domain/common/errors/domain-error-code';
 import { JwtPayload } from 'src/support/jwt.util';
 

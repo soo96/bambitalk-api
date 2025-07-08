@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { DomainCustomException } from 'src/domain/common/errors/domain-custrom-exception';
+import { DomainCustomException } from 'src/domain/common/errors/domain-custom-exception';
 import { DomainErrorCode } from 'src/domain/common/errors/domain-error-code';
 
 @Injectable()

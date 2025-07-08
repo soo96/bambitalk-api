@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { DomainErrorCode } from 'src/domain/common/errors/domain-error-code';
 import { JWT_CONFIG } from './constants';
 import { LoginToken } from 'src/domain/auth/login-token';
-import { DomainCustomException } from 'src/domain/common/errors/domain-custrom-exception';
+import { DomainCustomException } from 'src/domain/common/errors/domain-custom-exception';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import { SocialLoginClient, SocialUserInfo } from 'src/domain/auth/social-login.client';
-import { DomainCustomException } from 'src/domain/common/errors/domain-custrom-exception';
+import { DomainCustomException } from 'src/domain/common/errors/domain-custom-exception';
 import { DomainErrorCode } from 'src/domain/common/errors/domain-error-code';
 import { OAUTH_URL } from 'src/support/constants';
 

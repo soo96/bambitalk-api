@@ -5,6 +5,7 @@ export const RequestErrorCode = {
   INVALID_PROVIDER: '2401',
   INVALID_NICKNAME_LENGTH: '3400',
   INVALID_USER_ROLE: '3404',
+  INVALID_LIMIT_RANGE: '6400',
 } as const;
 
 export type RequestErrorCode = (typeof RequestErrorCode)[keyof typeof RequestErrorCode];
@@ -16,4 +17,5 @@ export const RequestErrorMessage: Record<RequestErrorCode, string> = {
   [RequestErrorCode.INVALID_PROVIDER]: '소셜 제공자가 유효하지 않습니다.',
   [RequestErrorCode.INVALID_NICKNAME_LENGTH]: '닉네임은 2-10자 사이여야 합니다.',
   [RequestErrorCode.INVALID_USER_ROLE]: '역할은 DAD, MOM 중 하나여야 합니다.',
+  [RequestErrorCode.INVALID_LIMIT_RANGE]: 'limit은 최소 1, 최대 50까지만 설정할 수 있습니다.',
 };

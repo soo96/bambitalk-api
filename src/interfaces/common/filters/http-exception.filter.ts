@@ -3,7 +3,7 @@ import { Response } from 'express';
 import { RequestCustomException } from '../errors/request-custom-exception';
 import { DomainErrorCode, DomainErrorMessage } from 'src/domain/common/errors/domain-error-code';
 import { RequestErrorCode } from '../errors/request-error-code';
-import { DomainCustomException } from 'src/domain/common/errors/domain-custrom-exception';
+import { DomainCustomException } from 'src/domain/common/errors/domain-custom-exception';
 import { ResultResponseDto } from '../dto/result-response.dto';
 import { getErrorMessage } from 'src/support/error-message.util';
 

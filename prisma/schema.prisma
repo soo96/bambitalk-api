@@ -85,13 +85,13 @@ model Child {
 model Chat {
   chatId        BigInt    @id @default(autoincrement()) @map("chat_id")
   coupleId      BigInt    @unique @map("couple_id")
-  lastMessage   String?   @map("last_message")
+  lastMessageId BigInt?   @map("last_message_id")
   lastMessageAt DateTime? @map("last_message_at")
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
-  messages      Message[]
 
-  couple Couple @relation(fields: [coupleId], references: [coupleId])
+  couple  Couple    @relation(fields: [coupleId], references: [coupleId])
+  message Message[]
 }
 
 model Message {
@@ -103,8 +103,9 @@ model Message {
   sentAt    DateTime @default(now()) @map("sent_at")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  chat      Chat     @relation(fields: [chatId], references: [chatId])
-  sender    User     @relation(fields: [senderId], references: [userId])
+
+  chat   Chat @relation(fields: [chatId], references: [chatId])
+  sender User @relation(fields: [senderId], references: [userId])
 }
 
 model Schedule {
