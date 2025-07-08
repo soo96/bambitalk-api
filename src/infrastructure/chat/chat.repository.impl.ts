@@ -4,6 +4,7 @@ import { MessageEntity } from 'src/domain/chat/message.entity';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaTxContext } from '../prisma/transactional-context';
 import { SendMessageCommand } from 'src/domain/chat/command/sendMessageDto';
+import { ChatEntity } from 'src/domain/chat/chat.entity';
 
 @Injectable()
 export class ChatRepositoryImpl implements ChatRepository {
@@ -43,6 +44,21 @@ export class ChatRepositoryImpl implements ChatRepository {
       savedMessage.sentAt,
       savedMessage.createdAt,
       savedMessage.updatedAt
+    );
+  }
+
+  async createChat(coupleId: number): Promise<ChatEntity> {
+    const chat = await this.prisma.chat.create({
+      data: { coupleId },
+    });
+
+    return new ChatEntity(
+      Number(chat.chatId),
+      Number(chat.coupleId),
+      chat.lastMessage,
+      chat.lastMessageAt,
+      chat.createdAt,
+      chat.updatedAt
     );
   }
 

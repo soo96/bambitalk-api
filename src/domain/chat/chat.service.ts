@@ -8,7 +8,11 @@ export class ChatService {
     @Inject(CHAT_REPOSITORY)
     private readonly chatRepository: ChatRepository
   ) {}
+
   async saveMessage(command: SendMessageCommand) {
     return await this.chatRepository.createMessage(command);
+  }
+  async createChat(coupleId: number) {
+    return await this.chatRepository.createChat(coupleId);
   }
 }
