@@ -10,9 +10,10 @@ import { UserRepositoryImpl } from 'src/infrastructure/user/user.repository.impl
 import { JwtUtil } from 'src/support/jwt.util';
 import { CoupleModule } from '../couple/couple.module';
 import { JwtStrategy } from '../common/guards/jwt.strategy';
+import { ChatModule } from '../chat/chat.module';
 
 @Module({
-  imports: [UserModule, JwtModule.register({}), CoupleModule],
+  imports: [UserModule, JwtModule.register({}), CoupleModule, ChatModule],
   controllers: [AuthController],
   providers: [
     AuthUseCase,

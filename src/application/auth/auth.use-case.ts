@@ -3,6 +3,7 @@ import { SignupCommand } from 'src/domain/auth/command/signup.command';
 import { LoginResponseResult } from 'src/domain/auth/result/login-response.result';
 import { SignupResponseResult } from 'src/domain/auth/result/signup-response.result';
 import { SOCIAL_LOGIN_CLIENT, SocialLoginClient } from 'src/domain/auth/social-login.client';
+import { ChatService } from 'src/domain/chat/chat.service';
 import { CoupleService } from 'src/domain/couple/couple.service';
 import { USER_REPOSITORY, UserRepository } from 'src/domain/user/user.repository';
 import { UserService } from 'src/domain/user/user.service';
@@ -18,7 +19,8 @@ export class AuthUseCase {
     private readonly userRepository: UserRepository,
     private readonly jwtUtil: JwtUtil,
     private readonly userService: UserService,
-    private readonly coupleService: CoupleService
+    private readonly coupleService: CoupleService,
+    private readonly chatService: ChatService
   ) {}
 
   private readonly logger = new Logger(AuthUseCase.name);
@@ -36,11 +38,21 @@ export class AuthUseCase {
     const loginToken = this.jwtUtil.generateLoginToken({
       userId: user.userId,
       coupleId: user.coupleId,
+      spouseId: user.spouseId,
     });
 
     await this.userService.saveRefreshToken(user.userId, loginToken.refreshToken);
 
-    return { needSignup: false, ...loginToken };
+    return {
+      needSignup: false,
+      ...loginToken,
+      user: {
+        userId: user.userId,
+        coupleId: user.coupleId,
+        spouseId: user.spouseId,
+        nickname: user.nickname,
+      },
+    };
   }
 
   @Transactional()
@@ -53,13 +65,24 @@ export class AuthUseCase {
 
     await this.userRepository.updateCoupleId(user.userId, couple.coupleId);
 
+    await this.chatService.createChat(couple.coupleId);
+
     const loginToken = this.jwtUtil.generateLoginToken({
       userId: user.userId,
       coupleId: user.coupleId,
+      spouseId: user.spouseId,
     });
 
     await this.userService.saveRefreshToken(user.userId, loginToken.refreshToken);
 
-    return loginToken;
+    return {
+      ...loginToken,
+      user: {
+        userId: user.userId,
+        coupleId: user.coupleId,
+        spouseId: user.spouseId,
+        nickname: user.nickname,
+      },
+    };
   }
 }

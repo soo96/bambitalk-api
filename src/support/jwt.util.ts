@@ -51,4 +51,5 @@ export class JwtUtil {
 export type JwtPayload = {
   userId: number;
   coupleId: number | null;
+  spouseId: number | null;
 };
