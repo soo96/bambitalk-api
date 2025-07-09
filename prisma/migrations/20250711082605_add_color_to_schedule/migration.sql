@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `schedule` ADD COLUMN `color` ENUM('RED', 'ORANGE', 'YELLOW', 'GREEN', 'BLUE', 'PURPLE') NOT NULL DEFAULT 'YELLOW';

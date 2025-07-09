@@ -62,7 +62,7 @@ export class MessageRepositoryImpl implements MessageRepository {
     const messages = await this.prisma.message.findMany({
       where: { chatId },
       take: limit,
-      orderBy: { messageId: 'desc' },
+      orderBy: { sentAt: 'desc' },
       ...(cursor && {
         skip: 1,
         cursor: { messageId: cursor },
