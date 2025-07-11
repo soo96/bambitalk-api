@@ -42,4 +42,7 @@ export const FieldConstraintErrorMap: Partial<
   color: {
     isIn: RequestErrorCode.INVALID_COLOR,
   },
+  isCompleted: {
+    isBoolean: RequestErrorCode.INVALID_IS_COMPLETED,
+  },
 };

@@ -7,6 +7,7 @@ import { PrismaTxContext } from '../prisma/transactional-context';
 import { endOfMonth, startOfMonth, format } from 'date-fns';
 import { CreateScheduleCommand } from 'src/domain/schedule/command/create-schedule.command';
 import { ScheduleEntity } from 'src/domain/schedule/schedule.entity';
+import { UpdateScheduleCommand } from 'src/domain/schedule/command/update-schedule.command';
 
 @Injectable()
 export class ScheduleRepositoryImpl implements ScheduleRepository {
@@ -66,6 +67,29 @@ export class ScheduleRepositoryImpl implements ScheduleRepository {
       newSchedule.isCompleted,
       newSchedule.createdAt,
       newSchedule.updatedAt
+    );
+  }
+
+  async updateSchedule(
+    scheduleId: number,
+    command: UpdateScheduleCommand
+  ): Promise<ScheduleEntity> {
+    const updatedSchedule = await this.prisma.schedule.update({
+      where: { scheduleId },
+      data: command,
+    });
+
+    return new ScheduleEntity(
+      Number(updatedSchedule.scheduleId),
+      Number(updatedSchedule.coupleId),
+      Number(updatedSchedule.creatorId),
+      updatedSchedule.title,
+      updatedSchedule.description,
+      updatedSchedule.date,
+      updatedSchedule.color,
+      updatedSchedule.isCompleted,
+      updatedSchedule.createdAt,
+      updatedSchedule.updatedAt
     );
   }
 

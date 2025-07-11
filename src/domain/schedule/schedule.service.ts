@@ -4,6 +4,7 @@ import { GetSchedulesCommand } from './command/get-schedules.command';
 import { GetSchedulesResult } from './result/schedule-item.result';
 import { CreateScheduleCommand } from './command/create-schedule.command';
 import { ScheduleEntity } from './schedule.entity';
+import { UpdateScheduleCommand } from './command/update-schedule.command';
 
 @Injectable()
 export class ScheduleService {
@@ -28,5 +29,12 @@ export class ScheduleService {
 
   async createSchedule(command: CreateScheduleCommand): Promise<ScheduleEntity> {
     return await this.scheduleRepository.createSchedule(command);
+  }
+
+  async updateSchedule(
+    scheduleId: number,
+    command: UpdateScheduleCommand
+  ): Promise<ScheduleEntity> {
+    return await this.scheduleRepository.updateSchedule(scheduleId, command);
   }
 }

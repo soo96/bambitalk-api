@@ -6,7 +6,7 @@ export class ScheduleEntity {
     public readonly title: string,
     public readonly description: string | null,
     public readonly date: Date,
-    public readonly color: Color,
+    public readonly color: COLOR,
     public readonly isCompleted: boolean,
     public readonly createdAt: Date,
     public readonly updatedAt: Date
@@ -22,4 +22,4 @@ export const COLOR = {
   PURPLE: 'PURPLE',
 } as const;
 
-export type Color = (typeof COLOR)[keyof typeof COLOR];
+export type COLOR = (typeof COLOR)[keyof typeof COLOR];

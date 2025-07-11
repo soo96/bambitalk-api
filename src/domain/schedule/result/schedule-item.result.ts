@@ -1,4 +1,4 @@
-import { Color } from '../schedule.entity';
+import { COLOR } from '../schedule.entity';
 
 export interface ScheduleItem {
   scheduleId: number;
@@ -6,7 +6,7 @@ export interface ScheduleItem {
   description?: string | null;
   date: string;
   time: string;
-  color: Color;
+  color: COLOR;
   isCompleted: boolean;
   creatorId: number;
   creatorRole: 'DAD' | 'MOM' | null;

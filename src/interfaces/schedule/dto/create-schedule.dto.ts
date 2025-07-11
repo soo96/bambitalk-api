@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { CreateScheduleCommand } from 'src/domain/schedule/command/create-schedule.command';
-import { COLOR, Color } from 'src/domain/schedule/schedule.entity';
+import { COLOR } from 'src/domain/schedule/schedule.entity';
 
 export class CreateScheduleDto {
   @IsString()
@@ -19,7 +19,7 @@ export class CreateScheduleDto {
 
   @IsIn(Object.values(COLOR))
   @IsOptional()
-  color: Color;
+  color: COLOR;
 
   toCommand(coupleId: number, userId: number): CreateScheduleCommand {
     return {
