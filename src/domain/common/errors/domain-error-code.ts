@@ -8,6 +8,7 @@ export const DomainErrorCode = {
   AUTH_SERVER_ERROR: '2500',
   DUPLICATED_USER: '3402',
   USER_NOT_FOUND: '3403',
+  SCHEDULE_NOT_FOUND: '4404',
 } as const;
 
 export type DomainErrorCode = (typeof DomainErrorCode)[keyof typeof DomainErrorCode];
@@ -22,4 +23,5 @@ export const DomainErrorMessage: Record<DomainErrorCode, string> = {
   [DomainErrorCode.AUTH_SERVER_ERROR]: '인증 서버에서 문제가 발생하였습니다.',
   [DomainErrorCode.DUPLICATED_USER]: '이미 가입된 사용자입니다.',
   [DomainErrorCode.USER_NOT_FOUND]: '사용자를 찾을 수 없습니다.',
+  [DomainErrorCode.SCHEDULE_NOT_FOUND]: '존재하지 않는 일정입니다.',
 };

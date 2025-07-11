@@ -7,7 +7,9 @@ import { ScheduleEntity } from './schedule.entity';
 export const SCHEDULE_REPOSITORY = Symbol('SCHEDULE_REPOSITORY');
 
 export interface ScheduleRepository {
+  getSchedule(scheduleId: number): Promise<ScheduleEntity | null>;
   getSchedules(command: GetSchedulesCommand): Promise<ScheduleItem[]>;
   createSchedule(command: CreateScheduleCommand): Promise<ScheduleEntity>;
   updateSchedule(scheduleId: number, command: UpdateScheduleCommand): Promise<ScheduleEntity>;
+  deleteSchedule(scheduleId: number): Promise<void>;
 }

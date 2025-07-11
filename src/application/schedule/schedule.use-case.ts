@@ -24,4 +24,8 @@ export class ScheduleUseCase {
   ): Promise<ScheduleEntity> {
     return await this.scheduleService.updateSchedule(scheduleId, command);
   }
+
+  async deleteSchedule(scheduleId: number): Promise<void> {
+    return await this.scheduleService.deleteSchedule(scheduleId);
+  }
 }

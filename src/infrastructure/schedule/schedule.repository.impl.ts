@@ -12,6 +12,28 @@ import { UpdateScheduleCommand } from 'src/domain/schedule/command/update-schedu
 @Injectable()
 export class ScheduleRepositoryImpl implements ScheduleRepository {
   constructor(private readonly prismaService: PrismaService) {}
+  async getSchedule(scheduleId: number): Promise<ScheduleEntity | null> {
+    const schedule = await this.prisma.schedule.findUnique({
+      where: { scheduleId },
+    });
+
+    if (!schedule) {
+      return null;
+    }
+
+    return new ScheduleEntity(
+      Number(schedule.scheduleId),
+      Number(schedule.coupleId),
+      Number(schedule.creatorId),
+      schedule.title,
+      schedule.description,
+      schedule.date,
+      schedule.color,
+      schedule.isCompleted,
+      schedule.createdAt,
+      schedule.updatedAt
+    );
+  }
 
   async getSchedules({ coupleId, yearMonth }: GetSchedulesCommand): Promise<ScheduleItem[]> {
     const startDate = startOfMonth(new Date(`${yearMonth}-01`));
@@ -91,6 +113,12 @@ export class ScheduleRepositoryImpl implements ScheduleRepository {
       updatedSchedule.createdAt,
       updatedSchedule.updatedAt
     );
+  }
+
+  async deleteSchedule(scheduleId: number): Promise<void> {
+    await this.prisma.schedule.delete({
+      where: { scheduleId },
+    });
   }
 
   private get prisma() {

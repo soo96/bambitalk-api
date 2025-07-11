@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ScheduleUseCase } from 'src/application/schedule/schedule.use-case';
 import { GetSchedulesDto } from './dto/get-schedules.dto';
 import { User } from '../common/decorators/user.decorator';
@@ -57,5 +67,15 @@ export class ScheduleController {
     const result = await this.scheduleUseCase.updateSchedule(scheduleId, command);
 
     return ResultResponseDto.success(result);
+  }
+
+  @Delete(':id')
+  async deleteSchedule(
+    @Param('id', new ParseIntWithCodePipe(RequestErrorCode.INVALID_SCHEDULE_ID_TYPE))
+    scheduleId: number
+  ) {
+    await this.scheduleUseCase.deleteSchedule(scheduleId);
+
+    return ResultResponseDto.success();
   }
 }

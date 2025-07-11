@@ -5,6 +5,8 @@ import { GetSchedulesResult } from './result/schedule-item.result';
 import { CreateScheduleCommand } from './command/create-schedule.command';
 import { ScheduleEntity } from './schedule.entity';
 import { UpdateScheduleCommand } from './command/update-schedule.command';
+import { DomainCustomException } from '../common/errors/domain-custom-exception';
+import { DomainErrorCode } from '../common/errors/domain-error-code';
 
 @Injectable()
 export class ScheduleService {
@@ -35,6 +37,22 @@ export class ScheduleService {
     scheduleId: number,
     command: UpdateScheduleCommand
   ): Promise<ScheduleEntity> {
+    const schedule = await this.scheduleRepository.getSchedule(scheduleId);
+
+    if (schedule === null) {
+      throw new DomainCustomException(404, DomainErrorCode.SCHEDULE_NOT_FOUND);
+    }
+
     return await this.scheduleRepository.updateSchedule(scheduleId, command);
+  }
+
+  async deleteSchedule(scheduleId: number): Promise<void> {
+    const schedule = await this.scheduleRepository.getSchedule(scheduleId);
+
+    if (schedule === null) {
+      throw new DomainCustomException(404, DomainErrorCode.SCHEDULE_NOT_FOUND);
+    }
+
+    await this.scheduleRepository.deleteSchedule(scheduleId);
   }
 }
