@@ -2,6 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { SCHEDULE_REPOSITORY, ScheduleRepository } from './schedule.repository';
 import { GetSchedulesCommand } from './command/get-schedules.command';
 import { GetSchedulesResult } from './result/schedule-item.result';
+import { CreateScheduleCommand } from './command/create-schedule.command';
+import { ScheduleEntity } from './schedule.entity';
 
 @Injectable()
 export class ScheduleService {
@@ -22,5 +24,9 @@ export class ScheduleService {
       }
       return acc;
     }, [] as GetSchedulesResult[]);
+  }
+
+  async createSchedule(command: CreateScheduleCommand): Promise<ScheduleEntity> {
+    return await this.scheduleRepository.createSchedule(command);
   }
 }
