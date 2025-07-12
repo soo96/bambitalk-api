@@ -35,12 +35,11 @@ model User {
 }
 
 model Couple {
-  coupleId   BigInt   @id @default(autoincrement()) @map("couple_id")
-  inviteCode String?  @map("invite_code")
-  user1Id    BigInt   @map("user1_id")
-  user2Id    BigInt?  @map("user2_id")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  coupleId  BigInt   @id @default(autoincrement()) @map("couple_id")
+  user1Id   BigInt   @map("user1_id")
+  user2Id   BigInt?  @map("user2_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   users User[]
   child Child[]

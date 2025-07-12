@@ -14,3 +14,7 @@ export const JWT_CONFIG = {
     EXPIRES_IN: '7d',
   },
 };
+
+export const CACHE = {
+  INVITE_CODE_TTL: 60 * 15, // 15분
+};

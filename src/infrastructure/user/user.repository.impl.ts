@@ -9,6 +9,28 @@ import { TokenEntity } from 'src/domain/user/token.entity';
 export class UserRepositoryImpl implements UserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async getUserById(userId: number): Promise<UserEntity | null> {
+    const user = await this.prisma.user.findUnique({
+      where: { userId },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return new UserEntity(
+      Number(user.userId),
+      user.nickname ?? '',
+      user.role ?? 'DAD',
+      user.coupleId !== null ? Number(user.coupleId) : null,
+      user.spouseId !== null ? Number(user.spouseId) : null,
+      Number(user.kakaoId),
+      user.isDeleted ?? false,
+      user.createdAt,
+      user.updatedAt
+    );
+  }
+
   async getUserByKakaoId(kakaoId: number): Promise<UserEntity | null> {
     const user = await this.prisma.user.findUnique({
       where: { kakaoId },

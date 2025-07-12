@@ -4,6 +4,7 @@ import { Role, UserEntity } from './user.entity';
 export const USER_REPOSITORY = Symbol('UserRepository');
 
 export interface UserRepository {
+  getUserById(userId: number): Promise<UserEntity | null>;
   getUserByKakaoId(kakaoId: number): Promise<UserEntity | null>;
   createUser(kakaoId: number, nickname: string, role: Role): Promise<UserEntity>;
   createToken(userId: number): Promise<TokenEntity>;

@@ -15,7 +15,6 @@ export class CoupleRepositoryImpl implements CoupleRepository {
 
     return new CoupleEntity(
       Number(couple.coupleId),
-      couple.inviteCode ?? '',
       Number(couple.user1Id),
       Number(couple.user2Id),
       couple.createdAt,

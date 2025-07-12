@@ -13,6 +13,6 @@ import { UserRepositoryImpl } from 'src/infrastructure/user/user.repository.impl
       useClass: UserRepositoryImpl,
     },
   ],
-  exports: [UserService],
+  exports: [UserService, USER_REPOSITORY],
 })
 export class UserModule {}
