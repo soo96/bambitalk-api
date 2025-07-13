@@ -77,6 +77,12 @@ export class MessageRepositoryImpl implements MessageRepository {
     }));
   }
 
+  async deleteMessagesByChatId(chatId: number): Promise<void> {
+    await this.prisma.message.deleteMany({
+      where: { chatId },
+    });
+  }
+
   private get prisma() {
     return PrismaTxContext.get() ?? this.prismaService;
   }

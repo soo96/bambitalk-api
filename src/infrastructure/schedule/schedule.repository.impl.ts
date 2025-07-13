@@ -12,6 +12,7 @@ import { UpdateScheduleCommand } from 'src/domain/schedule/command/update-schedu
 @Injectable()
 export class ScheduleRepositoryImpl implements ScheduleRepository {
   constructor(private readonly prismaService: PrismaService) {}
+
   async getSchedule(scheduleId: number): Promise<ScheduleEntity | null> {
     const schedule = await this.prisma.schedule.findUnique({
       where: { scheduleId },
@@ -118,6 +119,12 @@ export class ScheduleRepositoryImpl implements ScheduleRepository {
   async deleteSchedule(scheduleId: number): Promise<void> {
     await this.prisma.schedule.delete({
       where: { scheduleId },
+    });
+  }
+
+  async deleteScheduleByCoupleId(coupleId: number): Promise<void> {
+    await this.prisma.schedule.deleteMany({
+      where: { coupleId },
     });
   }
 

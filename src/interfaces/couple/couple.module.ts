@@ -5,9 +5,12 @@ import { CoupleService } from 'src/domain/couple/couple.service';
 import { CoupleRepositoryImpl } from 'src/infrastructure/couple/couple.repository.impl';
 import { UserModule } from '../user/user.module';
 import { CoupleController } from './couple.controller';
+import { ChatModule } from '../chat/chat.module';
+import { ScheduleModule } from '../schedule/schedule.module';
+import { MessageModule } from '../message/message.module';
 
 @Module({
-  imports: [UserModule],
+  imports: [UserModule, ChatModule, ScheduleModule, MessageModule],
   controllers: [CoupleController],
   providers: [
     CoupleUseCase,

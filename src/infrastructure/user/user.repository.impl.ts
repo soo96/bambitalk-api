@@ -4,6 +4,7 @@ import { UserRepository } from 'src/domain/user/user.repository';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaTxContext } from '../prisma/transactional-context';
 import { TokenEntity } from 'src/domain/user/token.entity';
+import { UpdateUserCommand } from 'src/domain/user/command/update-user.command';
 
 @Injectable()
 export class UserRepositoryImpl implements UserRepository {
@@ -96,6 +97,13 @@ export class UserRepositoryImpl implements UserRepository {
     await this.prisma.token.update({
       where: { userId },
       data: { refreshToken },
+    });
+  }
+
+  async updateUser(userId: number, user: UpdateUserCommand): Promise<void> {
+    await this.prisma.user.update({
+      where: { userId },
+      data: user,
     });
   }
 

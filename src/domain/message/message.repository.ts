@@ -8,4 +8,5 @@ export const MESSAGE_REPOSITORY = Symbol('MESSAGE_REPOSITORY');
 export interface MessageRepository {
   createMessage(command: SendMessageCommand): Promise<MessageEntity>;
   getMessages(command: GetMessagesCommand): Promise<GetMessagesResult[]>;
+  deleteMessagesByChatId(chatId: number): Promise<void>;
 }

@@ -5,4 +5,5 @@ export interface CacheService {
   set(key: string, value: string, ttlSeconds?: number): Promise<void>;
   getTTL(key: string): Promise<number>;
   exists(key: string): Promise<boolean>;
+  del(key: string): Promise<void>;
 }

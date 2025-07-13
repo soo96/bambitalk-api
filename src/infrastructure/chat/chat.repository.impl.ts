@@ -8,6 +8,24 @@ import { ChatEntity } from 'src/domain/chat/chat.entity';
 export class ChatRepositoryImpl implements ChatRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async getChatsByCoupleId(coupleId: number): Promise<ChatEntity[]> {
+    const chats = await this.prisma.chat.findMany({
+      where: { coupleId },
+    });
+
+    return chats.map(
+      (c) =>
+        new ChatEntity(
+          Number(c.chatId),
+          Number(c.coupleId),
+          Number(c.lastMessageId),
+          c.lastMessageAt,
+          c.createdAt,
+          c.updatedAt
+        )
+    );
+  }
+
   async createChat(coupleId: number): Promise<ChatEntity> {
     const chat = await this.prisma.chat.create({
       data: { coupleId },
@@ -21,6 +39,12 @@ export class ChatRepositoryImpl implements ChatRepository {
       chat.createdAt,
       chat.updatedAt
     );
+  }
+
+  async deleteChatByCoupleId(coupleId: number): Promise<void> {
+    await this.prisma.chat.deleteMany({
+      where: { coupleId },
+    });
   }
 
   private get prisma() {

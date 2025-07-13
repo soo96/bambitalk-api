@@ -1,3 +1,4 @@
+import { UpdateUserCommand } from './command/update-user.command';
 import { TokenEntity } from './token.entity';
 import { Role, UserEntity } from './user.entity';
 
@@ -10,4 +11,5 @@ export interface UserRepository {
   createToken(userId: number): Promise<TokenEntity>;
   updateCoupleId(userId: number, coupleId: number): Promise<void>;
   updateToken(userId: number, refreshToken: string): Promise<void>;
+  updateUser(userId: number, user: UpdateUserCommand): Promise<void>;
 }

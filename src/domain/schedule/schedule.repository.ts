@@ -12,4 +12,5 @@ export interface ScheduleRepository {
   createSchedule(command: CreateScheduleCommand): Promise<ScheduleEntity>;
   updateSchedule(scheduleId: number, command: UpdateScheduleCommand): Promise<ScheduleEntity>;
   deleteSchedule(scheduleId: number): Promise<void>;
+  deleteScheduleByCoupleId(coupleId: number): Promise<void>;
 }

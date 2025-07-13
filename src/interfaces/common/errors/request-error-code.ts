@@ -9,6 +9,7 @@ export const RequestErrorCode = {
   INVALID_COLOR: '4401',
   INVALID_IS_COMPLETED: '4402',
   INVALID_SCHEDULE_ID_TYPE: '4403',
+  INVALID_INVITE_CODE: '5401',
   INVALID_LIMIT_RANGE: '6400',
 } as const;
 
@@ -26,5 +27,6 @@ export const RequestErrorMessage: Record<RequestErrorCode, string> = {
     '색상은 RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE 중 하나여야 합니다.',
   [RequestErrorCode.INVALID_IS_COMPLETED]: 'isCompleted는 true 또는 false여야 합니다.',
   [RequestErrorCode.INVALID_SCHEDULE_ID_TYPE]: 'scheduleId는 숫자여야 합니다.',
+  [RequestErrorCode.INVALID_INVITE_CODE]: '초대코드가 유효하지 않거나 만료되었습니다.',
   [RequestErrorCode.INVALID_LIMIT_RANGE]: 'limit은 최소 1, 최대 50까지만 설정할 수 있습니다.',
 };

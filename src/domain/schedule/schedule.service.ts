@@ -55,4 +55,8 @@ export class ScheduleService {
 
     await this.scheduleRepository.deleteSchedule(scheduleId);
   }
+
+  async deleteScheduleByCoupleId(coupleId: number): Promise<void> {
+    await this.scheduleRepository.deleteScheduleByCoupleId(coupleId);
+  }
 }

@@ -10,6 +10,9 @@ export const DomainErrorCode = {
   USER_NOT_FOUND: '3403',
   SCHEDULE_NOT_FOUND: '4404',
   SPOUSE_ALREADY_EXIST: '5400',
+  INVALID_INVITE_CODE: '5401',
+  ALREADY_SAME_COUPLE: '5402',
+  COUPLE_NOT_FOUND: '5403',
 } as const;
 
 export type DomainErrorCode = (typeof DomainErrorCode)[keyof typeof DomainErrorCode];
@@ -27,4 +30,7 @@ export const DomainErrorMessage: Record<DomainErrorCode, string> = {
   [DomainErrorCode.SCHEDULE_NOT_FOUND]: '존재하지 않는 일정입니다.',
   [DomainErrorCode.SPOUSE_ALREADY_EXIST]:
     '이미 배우자가 등록되어 있어 초대코드를 발급할 수 없습니다.',
+  [DomainErrorCode.INVALID_INVITE_CODE]: '초대코드가 유효하지 않거나 만료되었습니다.',
+  [DomainErrorCode.ALREADY_SAME_COUPLE]: '이미 커플로 연결되어 있습니다.',
+  [DomainErrorCode.COUPLE_NOT_FOUND]: '커플 정보를 찾을 수 없습니다.',
 };

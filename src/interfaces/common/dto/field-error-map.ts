@@ -45,4 +45,9 @@ export const FieldConstraintErrorMap: Partial<
   isCompleted: {
     isBoolean: RequestErrorCode.INVALID_IS_COMPLETED,
   },
+  inviteCode: {
+    isLength: RequestErrorCode.INVALID_INVITE_CODE,
+    IsString: RequestErrorCode.INVALID_INVITE_CODE,
+    IsNotEmpty: RequestErrorCode.MISSING_REQUIRED_FIELD,
+  },
 };

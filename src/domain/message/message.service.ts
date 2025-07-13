@@ -18,4 +18,8 @@ export class MessageService {
   async getMessages(command: GetMessagesCommand): Promise<GetMessagesResult[]> {
     return await this.messageRepository.getMessages(command);
   }
+
+  async deleteMessagesByChatId(coupleId: number): Promise<void> {
+    await this.messageRepository.deleteMessagesByChatId(coupleId);
+  }
 }

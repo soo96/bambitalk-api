@@ -61,4 +61,8 @@ export class RedisService implements CacheService, OnModuleInit, OnModuleDestroy
   async exists(key: string): Promise<boolean> {
     return Boolean(await this.client.exists(key));
   }
+
+  async del(key: string): Promise<void> {
+    await this.client.del(key);
+  }
 }

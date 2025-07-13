@@ -15,5 +15,6 @@ import { ScheduleRepositoryImpl } from 'src/infrastructure/schedule/schedule.rep
       useClass: ScheduleRepositoryImpl,
     },
   ],
+  exports: [ScheduleService],
 })
 export class ScheduleModule {}
