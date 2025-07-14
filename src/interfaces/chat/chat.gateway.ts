@@ -6,7 +6,6 @@ import {
   MessageBody,
   WebSocketServer,
   ConnectedSocket,
-  WsException,
 } from '@nestjs/websockets';
 import { DefaultEventsMap, Server, Socket } from 'socket.io';
 import { SendMessageDto } from '../message/dto/send-message.dto';
@@ -17,6 +16,8 @@ import { JwtPayload } from 'src/support/jwt.util';
 import { AuthPayload } from '../auth/interface/auth-payload';
 import { MessageUseCase } from 'src/application/message/message.use-case';
 import { GetMessagesResult } from 'src/domain/message/result/get-messages.result';
+import { DomainErrorCode } from 'src/domain/common/errors/domain-error-code';
+import { getErrorMessage } from 'src/support/error-message.util';
 
 @WebSocketGateway({
   namespace: '/chats',
@@ -37,21 +38,31 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const token = client.handshake.auth?.token as string | undefined;
 
     if (!token) {
-      throw new WsException('Unauthorized');
+      this.sendError(client, DomainErrorCode.UNAUTHORIZED);
+      return;
     }
 
     try {
-      const payload: JwtPayload = this.jwtService.verify(token, {
+      const { coupleId, userId }: JwtPayload = this.jwtService.verify(token, {
         secret: process.env.JWT_ACCESS_SECRET,
       });
-      client.data.userId = payload.userId;
-      client.data.coupleId = payload.coupleId;
+      client.data.userId = userId;
+      client.data.coupleId = coupleId;
 
-      await client.join(`couple-${payload.coupleId}`);
-      console.log(`✅ User joined room: couple-${payload.coupleId}`);
+      if (!coupleId) {
+        this.logger.error('coupleId 없음');
+        this.sendError(client, DomainErrorCode.UNAUTHORIZED);
+        return;
+      }
+
+      await client.join(`couple-${coupleId}`);
+      console.log(`✅ User joined room: couple-${coupleId}`);
+
+      await this.messageUseCase.readAllMessages(coupleId, userId);
+      this.server.to(`couple-${client.data.coupleId}`).emit('update_read_status', userId);
     } catch (error) {
       this.logger.error('JWT 검증 실패:', error);
-      throw new WsException('Unauthorized');
+      this.sendError(client, DomainErrorCode.UNAUTHORIZED);
     }
   }
 
@@ -71,15 +82,41 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       content: payload.content,
     };
 
-    const savedMessage = await this.messageUseCase.saveMessage(command);
+    try {
+      const savedMessage = await this.messageUseCase.saveMessage(command);
 
-    const response: GetMessagesResult = {
-      id: savedMessage.messageId,
-      senderId: savedMessage.senderId,
-      text: savedMessage.content,
-      time: savedMessage.sentAt,
-    };
+      const response: GetMessagesResult = {
+        id: savedMessage.messageId,
+        chatId: savedMessage.chatId,
+        senderId: savedMessage.senderId,
+        text: savedMessage.content,
+        time: savedMessage.sentAt,
+        isRead: savedMessage.isRead,
+      };
 
-    this.server.to(`couple-${client.data.coupleId}`).emit('receive_message', response);
+      this.server.to(`couple-${client.data.coupleId}`).emit('receive_message', response);
+    } catch (error) {
+      this.logger.error('메시지 저장 실패', error);
+      this.sendError(client, DomainErrorCode.DB_SERVER_ERROR);
+    }
+  }
+
+  @SubscribeMessage('read_all_messages')
+  async readAllMessages(
+    @ConnectedSocket()
+    client: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, AuthPayload>
+  ) {
+    await this.messageUseCase.readAllMessages(client.data.coupleId, client.data.userId);
+
+    this.server.to(`couple-${client.data.coupleId}`).emit('update_read_status', client.data.userId);
+  }
+
+  sendError(client: Socket, errorCode: DomainErrorCode) {
+    const message = getErrorMessage(errorCode);
+
+    this.server.to(`couple-${client.data.coupleId}`).emit('error', {
+      code: errorCode,
+      message,
+    });
   }
 }

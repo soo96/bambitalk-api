@@ -4,7 +4,7 @@ export class MessageEntity {
     public readonly chatId: number,
     public readonly senderId: number,
     public readonly content: string,
-    public readonly read: boolean,
+    public readonly isRead: boolean,
     public readonly sentAt: Date,
     public readonly createdAt: Date,
     public readonly updatedAt: Date

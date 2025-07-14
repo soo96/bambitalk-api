@@ -41,7 +41,7 @@ export class MessageRepositoryImpl implements MessageRepository {
       Number(savedMessage.chatId),
       Number(savedMessage.senderId),
       savedMessage.content,
-      savedMessage.read,
+      savedMessage.isRead,
       savedMessage.sentAt,
       savedMessage.createdAt,
       savedMessage.updatedAt
@@ -71,10 +71,23 @@ export class MessageRepositoryImpl implements MessageRepository {
 
     return messages.map((m) => ({
       id: Number(m.messageId),
+      chatId: Number(m.chatId),
       senderId: Number(m.senderId),
       text: m.content,
       time: m.createdAt,
+      isRead: m.isRead,
     }));
+  }
+
+  async readAllMessages(chatId: number, userId: number): Promise<void> {
+    await this.prisma.message.updateMany({
+      data: { isRead: true },
+      where: {
+        chatId,
+        isRead: false,
+        senderId: { not: userId },
+      },
+    });
   }
 
   async deleteMessagesByChatId(chatId: number): Promise<void> {

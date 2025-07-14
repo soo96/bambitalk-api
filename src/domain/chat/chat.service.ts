@@ -9,6 +9,10 @@ export class ChatService {
     private readonly chatRepository: ChatRepository
   ) {}
 
+  async getChatByCoupleId(coupleId: number): Promise<ChatEntity | null> {
+    return await this.chatRepository.getChatByCoupleId(coupleId);
+  }
+
   async getChatsByCoupleId(coupleId: number): Promise<ChatEntity[]> {
     return await this.chatRepository.getChatsByCoupleId(coupleId);
   }

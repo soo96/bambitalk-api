@@ -22,4 +22,8 @@ export class MessageService {
   async deleteMessagesByChatId(coupleId: number): Promise<void> {
     await this.messageRepository.deleteMessagesByChatId(coupleId);
   }
+
+  async readAllMessages(chatId: number, userId: number): Promise<void> {
+    await this.messageRepository.readAllMessages(chatId, userId);
+  }
 }

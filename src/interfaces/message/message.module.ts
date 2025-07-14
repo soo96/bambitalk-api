@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MessageController } from './message.controller';
 import { MessageService } from 'src/domain/message/message.service';
 import { MESSAGE_REPOSITORY } from 'src/domain/message/message.repository';
 import { MessageRepositoryImpl } from 'src/infrastructure/message/message.repository.impl';
 import { MessageUseCase } from 'src/application/message/message.use-case';
+import { ChatModule } from '../chat/chat.module';
 
 @Module({
+  imports: [forwardRef(() => ChatModule)],
   controllers: [MessageController],
   providers: [
     MessageUseCase,

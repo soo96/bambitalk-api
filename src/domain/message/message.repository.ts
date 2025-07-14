@@ -9,4 +9,5 @@ export interface MessageRepository {
   createMessage(command: SendMessageCommand): Promise<MessageEntity>;
   getMessages(command: GetMessagesCommand): Promise<GetMessagesResult[]>;
   deleteMessagesByChatId(chatId: number): Promise<void>;
+  readAllMessages(chatId: number, userId: number): Promise<void>;
 }

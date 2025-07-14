@@ -6,4 +6,5 @@ export interface ChatRepository {
   createChat(coupleId: number): Promise<ChatEntity>;
   deleteChatByCoupleId(coupleId: number): Promise<void>;
   getChatsByCoupleId(coupleId: number): Promise<ChatEntity[]>;
+  getChatByCoupleId(coupleId: number): Promise<ChatEntity | null>;
 }

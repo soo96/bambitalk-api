@@ -8,6 +8,25 @@ import { ChatEntity } from 'src/domain/chat/chat.entity';
 export class ChatRepositoryImpl implements ChatRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async getChatByCoupleId(coupleId: number): Promise<ChatEntity | null> {
+    const chat = await this.prisma.chat.findUnique({
+      where: { coupleId },
+    });
+
+    if (!chat) {
+      return null;
+    }
+
+    return new ChatEntity(
+      Number(chat.chatId),
+      Number(chat.coupleId),
+      Number(chat.lastMessageId),
+      chat.lastMessageAt,
+      chat.createdAt,
+      chat.updatedAt
+    );
+  }
+
   async getChatsByCoupleId(coupleId: number): Promise<ChatEntity[]> {
     const chats = await this.prisma.chat.findMany({
       where: { coupleId },

@@ -99,7 +99,7 @@ model Message {
   chatId    BigInt   @map("chat_id")
   senderId  BigInt   @map("sender_id")
   content   String
-  read      Boolean  @default(false)
+  isRead      Boolean  @default(false)
   sentAt    DateTime @default(now()) @map("sent_at")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
