@@ -1,8 +1,11 @@
+import { MessageType } from '../message.entity';
+
 export interface GetMessagesResult {
   id: number;
   chatId: number;
   senderId: number;
-  text: string;
-  time: Date;
+  type: MessageType;
+  content: string;
   isRead: boolean;
+  sentAt: Date;
 }
