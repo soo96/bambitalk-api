@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
-import { FILE_UPLOAD_SERVICE } from 'src/domain/common/file-uploader/file-upload.service';
-import { S3FileUploadService } from './s3-file-uploader.service';
+import { FILE_SERVICE } from 'src/domain/common/file/file.service';
+import { S3FileUploadService } from '../../infrastructure/s3/s3-file-uploader.service';
 import { S3Client } from '@aws-sdk/client-s3';
+import { FileController } from './file.controller';
 
 @Module({
+  controllers: [FileController],
   providers: [
     {
-      provide: FILE_UPLOAD_SERVICE,
+      provide: FILE_SERVICE,
       useClass: S3FileUploadService,
     },
     {
@@ -22,6 +24,6 @@ import { S3Client } from '@aws-sdk/client-s3';
       },
     },
   ],
-  exports: [FILE_UPLOAD_SERVICE, 'S3_CLIENT'],
+  exports: [FILE_SERVICE, 'S3_CLIENT'],
 })
-export class S3FileuploadModule {}
+export class FileModule {}
