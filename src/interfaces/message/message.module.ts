@@ -5,9 +5,10 @@ import { MESSAGE_REPOSITORY } from 'src/domain/message/message.repository';
 import { MessageRepositoryImpl } from 'src/infrastructure/message/message.repository.impl';
 import { MessageUseCase } from 'src/application/message/message.use-case';
 import { ChatModule } from '../chat/chat.module';
+import { S3FileuploadModule } from 'src/infrastructure/file-uploader/s3/s3-file-uploader.module';
 
 @Module({
-  imports: [forwardRef(() => ChatModule)],
+  imports: [forwardRef(() => ChatModule), S3FileuploadModule],
   controllers: [MessageController],
   providers: [
     MessageUseCase,
