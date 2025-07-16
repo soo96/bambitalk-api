@@ -1,6 +1,7 @@
 export const RequestErrorCode = {
   MISSING_REQUIRED_FIELD: '1400',
   INVALID_QUERY_STRING: '1401',
+  FILE_IS_MISSING: '1402',
   UNAUTHORIZED: '2400',
   INVALID_PROVIDER: '2401',
   INVALID_NICKNAME_LENGTH: '3400',
@@ -18,6 +19,7 @@ export type RequestErrorCode = (typeof RequestErrorCode)[keyof typeof RequestErr
 export const RequestErrorMessage: Record<RequestErrorCode, string> = {
   [RequestErrorCode.MISSING_REQUIRED_FIELD]: '필수 필드가 누락되었습니다.',
   [RequestErrorCode.INVALID_QUERY_STRING]: 'query string 값이 올바르지 않습니다.',
+  [RequestErrorCode.FILE_IS_MISSING]: '업로드할 파일이 존재하지 않습니다.',
   [RequestErrorCode.UNAUTHORIZED]: '인증에 실패하였습니다.',
   [RequestErrorCode.INVALID_PROVIDER]: '소셜 제공자가 유효하지 않습니다.',
   [RequestErrorCode.INVALID_NICKNAME_LENGTH]: '닉네임은 2-10자 사이여야 합니다.',

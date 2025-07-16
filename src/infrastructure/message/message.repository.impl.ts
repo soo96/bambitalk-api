@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { MessageEntity } from 'src/domain/message/message.entity';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaTxContext } from '../prisma/transactional-context';
 import { SendMessageCommand } from 'src/domain/message/command/send-message.command';
@@ -11,7 +10,12 @@ import { GetMessagesResult } from 'src/domain/message/result/get-messages.result
 export class MessageRepositoryImpl implements MessageRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createMessage({ coupleId, senderId, content }: SendMessageCommand): Promise<MessageEntity> {
+  async createMessage({
+    coupleId,
+    senderId,
+    type,
+    content,
+  }: SendMessageCommand): Promise<GetMessagesResult> {
     const chat = await this.prisma.chat.findUnique({
       where: { coupleId },
     });
@@ -24,6 +28,7 @@ export class MessageRepositoryImpl implements MessageRepository {
       data: {
         chatId: chat.chatId,
         senderId,
+        type,
         content,
       },
     });
@@ -36,16 +41,15 @@ export class MessageRepositoryImpl implements MessageRepository {
       },
     });
 
-    return new MessageEntity(
-      Number(savedMessage.messageId),
-      Number(savedMessage.chatId),
-      Number(savedMessage.senderId),
-      savedMessage.content,
-      savedMessage.isRead,
-      savedMessage.sentAt,
-      savedMessage.createdAt,
-      savedMessage.updatedAt
-    );
+    return {
+      id: Number(savedMessage.messageId),
+      chatId: Number(savedMessage.chatId),
+      senderId: Number(savedMessage.senderId),
+      type: savedMessage.type,
+      content: savedMessage.content,
+      isRead: savedMessage.isRead,
+      sentAt: savedMessage.createdAt,
+    };
   }
 
   async getMessages({
@@ -73,9 +77,10 @@ export class MessageRepositoryImpl implements MessageRepository {
       id: Number(m.messageId),
       chatId: Number(m.chatId),
       senderId: Number(m.senderId),
-      text: m.content,
-      time: m.createdAt,
+      type: m.type,
+      content: m.content,
       isRead: m.isRead,
+      sentAt: m.createdAt,
     }));
   }
 

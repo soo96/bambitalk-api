@@ -95,14 +95,15 @@ model Chat {
 }
 
 model Message {
-  messageId BigInt   @id @default(autoincrement()) @map("message_id")
-  chatId    BigInt   @map("chat_id")
-  senderId  BigInt   @map("sender_id")
-  content   String
-  isRead      Boolean  @default(false)
-  sentAt    DateTime @default(now()) @map("sent_at")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  messageId BigInt      @id @default(autoincrement()) @map("message_id")
+  chatId    BigInt      @map("chat_id")
+  senderId  BigInt      @map("sender_id")
+  type      MessageType @default(TEXT)
+  content   String      @db.Text
+  isRead    Boolean     @default(false) @map("is_read")
+  sentAt    DateTime    @default(now()) @map("sent_at")
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
 
   chat   Chat @relation(fields: [chatId], references: [chatId])
   sender User @relation(fields: [senderId], references: [userId])
@@ -160,4 +161,10 @@ enum Color {
   GREEN
   BLUE
   PURPLE
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
 }

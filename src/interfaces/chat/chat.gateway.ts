@@ -15,7 +15,6 @@ import { Logger } from '@nestjs/common';
 import { JwtPayload } from 'src/support/jwt.util';
 import { AuthPayload } from '../auth/interface/auth-payload';
 import { MessageUseCase } from 'src/application/message/message.use-case';
-import { GetMessagesResult } from 'src/domain/message/result/get-messages.result';
 import { DomainErrorCode } from 'src/domain/common/errors/domain-error-code';
 import { getErrorMessage } from 'src/support/error-message.util';
 
@@ -79,22 +78,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const command: SendMessageCommand = {
       coupleId: client.data.coupleId,
       senderId: client.data.userId,
-      content: payload.content,
+      ...payload,
     };
 
     try {
       const savedMessage = await this.messageUseCase.saveMessage(command);
 
-      const response: GetMessagesResult = {
-        id: savedMessage.messageId,
-        chatId: savedMessage.chatId,
-        senderId: savedMessage.senderId,
-        text: savedMessage.content,
-        time: savedMessage.sentAt,
-        isRead: savedMessage.isRead,
-      };
-
-      this.server.to(`couple-${client.data.coupleId}`).emit('receive_message', response);
+      this.server.to(`couple-${client.data.coupleId}`).emit('receive_message', savedMessage);
     } catch (error) {
       this.logger.error('메시지 저장 실패', error);
       this.sendError(client, DomainErrorCode.DB_SERVER_ERROR);
